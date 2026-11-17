@@ -9,7 +9,7 @@ A home lab where I built an Active Directory domain, forward its logs (Sysmon an
 3. See how everyday admin actions and a simulated attack look in the logs, and learn to read them.
 ## Architecture
  
-![Network diagram](diagram.png)
+![Network diagram](screenshots/diagram.png)
  
 | Machine | OS | Address (Host-only) | Role |
 |---|---|---|---|
@@ -50,7 +50,7 @@ The domain creation from PowerShell and the users in the `LabUsers` OU:
  
 ![Creating the domain from PowerShell](screenshots/07-install-addsforest.png)
  
-![Users in the LabUsers OU](screenshots/06-uzytkownicy-ad.png)
+![Users in the LabUsers OU](screenshots/06-users-ad.png)
  
 ## Results
  
@@ -64,13 +64,13 @@ index=windows | stats count by host, source
  
 Within one hour **1,315 events** arrived from DC01: 758 from Sysmon and 557 from the Security log.
  
-![Logs in Splunk](screenshots/01-logi-plyna.png)
+![Logs in Splunk](screenshots/01-logs.png)
  
 ### Failed logons (EventCode 4625)
  
 The query `index=windows EventCode=4625` shows failed logon attempts on DC01 with fields such as `Failure_Reason`, `Logon_Type` and `Account_Name`.
  
-![Failed logons in Splunk](screenshots/05-bledne-logowania-4625.png)
+![Failed logons in Splunk](screenshots/05-Failed login attempts-4625.png)
  
 ### One `New-ADUser` command produces five events
  
@@ -86,7 +86,7 @@ Creating a user with a single command produced five events in the Security log w
  
 In event 4720 the `Account_Name` field has two values: the account that performed the action (`Administrator`) and the new account. Splunk shows time in UTC, while the event text contains the Windows local time, which explains the one-hour difference.
  
-![Events after New-ADUser](screenshots/02-zdarzenia-4720.png)
+![Events after New-ADUser](screenshots/02-account-events-4720.png)
  
 ### "Lab AD" dashboard
  
@@ -150,11 +150,11 @@ The domain name `lab-local` rejected during promotion to domain controller:
  
 A password that did not meet the domain policy, followed by "account already exists":
  
-![New-ADUser password error](screenshots/problem-haslo.png)
+![New-ADUser password error](screenshots/password-problem.png)
  
 An address on the wrong NIC and the network adapter fix:
  
-![Network adapter fix](screenshots/problem-karty-sieciowe.png)
+![Network adapter fix](screenshots/network-adapter-issue.png)
  
 ## Event ID reference
  
